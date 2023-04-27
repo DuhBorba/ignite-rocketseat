@@ -12,31 +12,17 @@ import styles from './App.module.css'
 
 import Clipboard from '../src/assets/clipboard.svg'
 
-// interface propsTask{
-//   tasks: {
-//     id: string;
-//     title: string;
-//     isComplete: boolean;
-//   }[],
-// }
+interface propsTask{
+  id: string;
+  title: string;
+  isComplete: boolean;
+}
 
-const tasks = [
-  {
-    id: v4(),
-    title: 'Terminar o desafio',
-    isComplete: false
-  },
-  {
-    id: v4(),
-    title: 'Estudar TypeScript',
-    isComplete: true
-  }
-]
-
+const tasks: propsTask[] = JSON.parse(localStorage.getItem('tasksTodo') || '[]');
 
 export const App = () => {
   const [createNewTask, setCreateNewTask] = React.useState(tasks);
-
+  
   function handleOnDragEnd(result: any) {
     if (!result.destination) return;
 
@@ -46,6 +32,10 @@ export const App = () => {
 
     setCreateNewTask(items);
   }
+  
+  React.useEffect(() => {
+    localStorage.setItem('tasksTodo', JSON.stringify(createNewTask))
+  }, [createNewTask]);
 
   return (
     <div>
